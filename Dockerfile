@@ -18,6 +18,7 @@ RUN apt-get install -y \
     libogg-dev \
     libini-config-dev \
     libcollection-dev \
+    libconfig-dev \
     pkg-config \
     gengetopt \
     libtool \
