@@ -3,8 +3,8 @@ version: '2'
 services:
   janus-gateway:
     image: janus-test
-    # build:
-    #   context: .
+    build:
+      context: .
     volumes:
       - ./conf:/opt/janus/etc/janus/
     ports:
