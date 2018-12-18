@@ -2,7 +2,7 @@ version: '2'
 
 services:
   janus-gateway:
-    image: janus-test
+    image: registry:5000/nbycomp/services/ebv/janus:v1
     build:
       context: .
     volumes:
