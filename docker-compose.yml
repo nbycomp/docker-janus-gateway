@@ -2,7 +2,7 @@ version: '2'
 
 services:
   janus-gateway:
-    image: registry:5000/nbycomp/services/ebv/janus:v1
+    image: registry:5000/nbycomp/services/ebv/janus:1.0.0
     build:
       context: .
     volumes:
@@ -17,3 +17,9 @@ services:
       - "10000-10200:10000-10200/udp"
     environment:
       - DOCKER_IP=${DOCKER_IP}
+      - FEED1_LABEL=${FEED1_LABEL}
+      - FEED2_LABEL=${FEED2_LABEL}
+      - FEED2_USER=${FEED2_USER}
+      - FEED2_PASSWORD=${FEED2_PASSWORD}
+      - FEED2_URL=${FEED2_URL}
+      

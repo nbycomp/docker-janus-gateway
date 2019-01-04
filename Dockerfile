@@ -80,4 +80,6 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80 7088 8088 8188 8089
 EXPOSE 10000-10200/udp
 
-CMD service nginx restart && /opt/janus/bin/janus --nat-1-1=${DOCKER_IP}
+# CMD service nginx restart && /opt/janus/bin/janus --nat-1-1=${DOCKER_IP}
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT /entrypoint.sh
