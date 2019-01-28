@@ -20,6 +20,17 @@ url= ${FEED2_URL}
 rtsp_user=${FEED2_USER}
 rtsp_pwd=${FEED2_PASSWORD}
 videofmtp = profile-level-id=42e01f\;packetization-mode=1
+
+[rtsp]
+type = rtsp
+id = 3
+description = ${FEED3_LABEL}
+audio = no
+video = yes
+url= ${FEED3_URL}
+rtsp_user=${FEED3_USER}
+rtsp_pwd=${FEED3_PASSWORD}
+videofmtp = profile-level-id=42e01f\;packetization-mode=1
 FOO
 
 service nginx restart && /opt/janus/bin/janus --nat-1-1=${DOCKER_IP}
