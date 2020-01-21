@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 LABEL maintainer="Linagora Folks <lgs-openpaas-dev@linagora.com>"
 LABEL description="Provides an image with Janus Gateway"
@@ -7,6 +7,7 @@ RUN apt-get update -y \
     && apt-get upgrade -y
 
 RUN apt-get install -y \
+    libcurl4-gnutls-dev \
     build-essential \
     libmicrohttpd-dev \
     libjansson-dev \
@@ -36,7 +37,7 @@ RUN apt-get install -y \
 RUN cd ~ \
     && git clone https://github.com/cisco/libsrtp.git \
     && cd libsrtp \
-    && git checkout v2.0.0 \
+    && git checkout v2.1.0 \
     && ./configure --prefix=/usr --enable-openssl \
     && make shared_library \
     && sudo make install
@@ -63,7 +64,7 @@ RUN cd ~ \
     && git clone https://github.com/meetecho/janus-gateway.git \
     && cd janus-gateway \
     && sh autogen.sh \
-    && ./configure --prefix=/opt/janus --disable-rabbitmq --disable-mqtt --enable-docs \
+    && ./configure --prefix=/opt/janus --disable-rabbitmq --disable-mqtt \
     && make CFLAGS='-std=c99' \
     && make install \
     && make configs
@@ -71,6 +72,7 @@ RUN cd ~ \
 RUN cp -rp ~/janus-gateway/certs /opt/janus/share/janus
 
 COPY conf/*.cfg /opt/janus/etc/janus/
+RUN rm -rfv /opt/janus/etc/janus/*.jcfg
 
 RUN apt-get install nginx -y
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
@@ -78,4 +80,6 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 EXPOSE 80 7088 8088 8188 8089
 EXPOSE 10000-10200/udp
 
-CMD service nginx restart && /opt/janus/bin/janus --nat-1-1=${DOCKER_IP}
+# CMD service nginx restart && /opt/janus/bin/janus --nat-1-1=${DOCKER_IP}
+COPY entrypoint.sh /entrypoint.sh
+ENTRYPOINT /entrypoint.sh
