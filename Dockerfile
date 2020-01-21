@@ -69,10 +69,9 @@ RUN cd ~ \
     && make install \
     && make configs
 
-RUN cp -rp ~/janus-gateway/certs /opt/janus/share/janus
+# RUN cp -rp ~/janus-gateway/certs /opt/janus/share/janus
 
-COPY conf/*.cfg /opt/janus/etc/janus/
-RUN rm -rfv /opt/janus/etc/janus/*.jcfg
+COPY conf /opt/janus/etc/janus/
 
 RUN apt-get install nginx -y
 COPY nginx/nginx.conf /etc/nginx/nginx.conf

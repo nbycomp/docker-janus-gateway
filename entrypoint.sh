@@ -2,16 +2,17 @@
 
 rtp_stream () {
     cat <<EOF
-[rtp]
-type = rtp
-id = $1
-description = feed $1
-audio = no
-video = yes
-videoport = $2
-videopt = 126
-videortpmap = H264/90000
-videofmtp = profile-level-id=42e01f\;packetization-mode=1
+rtp: {
+    type = "rtp"
+    id = $1
+    description = "feed $1"
+    audio = false
+    video = true
+    videoport = $2
+    videopt = 126
+    videortpmap = "H264/90000"
+    videofmtp = "profile-level-id=42e01f;packetization-mode=1"
+}
 EOF
 }
 
@@ -46,6 +47,6 @@ id=1
 while { port=$(( port_range_start + id - 1 )); [ $port -le $port_range_end ]; } do
     rtp_stream $id $port
     id=$(( id + 1 ))
-done > /opt/janus/etc/janus/janus.plugin.streaming.cfg
+done > /opt/janus/etc/janus/janus.plugin.streaming.jcfg
 
-service nginx restart && /opt/janus/bin/janus --nat-1-1=${DOCKER_IP}
+service nginx restart && /opt/janus/bin/janus #--nat-1-1=${DOCKER_IP}
